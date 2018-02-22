@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .is-Loading {
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <ul>
+      <li v-for="name in names" v-text="name"></li>
+    </ul>
+    <input v-model="newName" type="text">
+
+    <button @click="addName">Add Name</button>
+
+    <button v-bind:title="title">Hover to See</button>
+
+    <button @click="toggleClass" :class="{ 'is-Loading': isLoading }">Click to change class</button>
+
+    <button :disabled="disabled" @click="toggleDisable">Disable Me</button>
+    <br />
+    <h1>All tasks</h1>
+      <ul>
+        <li v-for="task in tasks" v-text="task.description"></li>
+      </ul>
+    <h1>Incompleted Tasks</h1>
+      <ul>
+        <li v-for="task in incompleteTasks" v-text="task.description" ></li>
+      </ul>
+      
+
+    <h1>Completed Tasks</h1>
+    <ul>
+        <li v-for="task in completeTasks" v-text="task.description"></li>
+      </ul>
+
+
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data:  {
+        disabled: false,
+        isLoading: false,
+        title: "Data from Vue",
+        newName: '',
+        names: ['Fred', 'Phil', 'Listor', 'Chuck'],
+        tasks: [
+          { description: 'Go to the store', completed: true},
+          { description: 'Finish Screencast', completed: false},
+          { description: 'Clean Bedroom', completed: false},
+          { description: 'Make Breakfast', completed: false},
+          { description: 'Vacume the lawn', completed: true},
+          { description: 'Walk the treadmill', completed: true},
+        ]
+      },
+      methods: {
+        addName() {
+          this.names.push(this.newName);
+          this.newName = '';
+        },
+        toggleClass() {
+          this.isLoading = true;
+          this.toggleDisable();
+        },
+        toggleDisable() {
+          this.disabled = !this.disabled;
+        },
+        toggleComplete(task) {
+          task = ! task;
+        }
+      },
+      computed: {
+        incompleteTasks() {
+          return this.tasks.filter(task => !task.completed);
+        },
+        completeTasks() {
+          return this.tasks.filter(task => task.completed);
+        }
+      }
+    })
+
+    // document.querySelector('#button').addEventListener('click', () => {
+    //   let name = document.querySelector('#input').value;
+    //   app.names.push(name);
+    //   name.value = '';
+    // });
+  </script>
+</body>
+</html>
