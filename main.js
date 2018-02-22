@@ -22,6 +22,7 @@ Vue.component('task', {
 });
 
 Vue.component('message', {
+  
   props: ['title', 'body'],
 
   data() {
